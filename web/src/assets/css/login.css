@@ -9,3 +9,15 @@
 	backdrop-filter: blur(30px);
 	
 }
+.cardstyle{
+	box-shadow: 0 5px 5px rgba(0,0,0,.4) !important;
+}
+.form-control{
+	border: 1px solid #858080;
+}
+.btn-dark{
+	background-color: #111;
+}
+.form-label{
+	color: #111 !important;
+}

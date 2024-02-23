@@ -7,7 +7,7 @@ function Login(){
           <div class="p-5 bg-image bgimage"></div>
         
           <div class="card mx-4 mx-md-5 shadow-5-strong card1">
-            <div class="card-body py-5 px-md-5">
+            <div class="card-body py-5 px-md-5 cardstyle">
         
               <div class="row d-flex justify-content-center">
                 <div class="col-lg-8">
@@ -16,36 +16,36 @@ function Login(){
                     <div class="row">
                       <div class="col-md-6 mb-4">
                         <div class="form-outline">
-                          <input type="text" id="form3Example1" class="form-control" />
                           <label class="form-label" for="form3Example1">First name</label>
+                          <input type="text" id="form3Example1" class="form-control" />
                         </div>
                       </div>
                       <div class="col-md-6 mb-4">
                         <div class="form-outline">
-                          <input type="text" id="form3Example2" class="form-control" />
                           <label class="form-label" for="form3Example2">Last name</label>
+                          <input type="text" id="form3Example2" class="form-control" />
                         </div>
                       </div>
                     </div>
         
                     <div class="form-outline mb-4">
-                      <input type="email" id="form3Example3" class="form-control" />
                       <label class="form-label" for="form3Example3">Email address</label>
+                      <input type="email" id="form3Example3" class="form-control" />
                     </div>
         
                     <div class="form-outline mb-4">
-                      <input type="password" id="form3Example4" class="form-control" />
                       <label class="form-label" for="form3Example4">Password</label>
+                      <input type="password" id="form3Example4" class="form-control" />
                     </div>
         
                     <div class="form-check d-flex justify-content-center mb-4">
-                      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
                       <label class="form-check-label" for="form2Example33">
                         Subscribe to our newsletter
                       </label>
+                      <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
                     </div>
         
-                    <button type="submit" class="btn btn-primary btn-block mb-4">
+                    <button type="submit" class="btn btn-dark btn-block mb-4">
                       Sign up
                     </button>
         
