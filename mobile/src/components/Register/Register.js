@@ -43,10 +43,10 @@ const Register = ({ navigation }) => {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
     if (data) {
-      data.type = "avertisseur";
       try {
+        setLoading(true);
+        data.type = "avertisseur";
         let response = await https.post("/users", data);
         if (response) {
           setAuthToken(response.data);

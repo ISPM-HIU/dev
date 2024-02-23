@@ -3,7 +3,11 @@ const prisma = new PrismaClient()
 
 const model = {
     getAll: async () => {
-        let result = await prisma.fako.findMany()
+        let result = await prisma.fako.findMany({
+            orderBy: {
+                id: "desc"
+            }
+        })
         return result
     },
     getOne: async (id : number) => {
@@ -46,7 +50,14 @@ const model = {
         })
 
         return result
-    }
+    },
+    delete: async (id : number) => {
+        let result = await prisma.fako.delete({
+            where: { id: Number(id) },
+        })
+
+        return result
+    },
 }
 
 export default model

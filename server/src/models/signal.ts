@@ -3,7 +3,11 @@ const prisma = new PrismaClient()
 
 const model = {
     getAll: async () => {
-        let result = await prisma.signal.findMany()
+        let result = await prisma.signal.findMany({
+            orderBy: {
+                id: "desc"
+            }
+        })
         return result
     },
     getOne: async (id : number) => {

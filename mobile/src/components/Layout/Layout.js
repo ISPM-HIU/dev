@@ -4,9 +4,9 @@ import { View, SafeAreaView } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, style }) => {
   return (
-    <SafeAreaView style={[globalStyle.container]}>
+    <SafeAreaView style={[globalStyle.container, style]}>
       <StatusBar style="dark" />
       <View style={{ paddingLeft: 10, paddingRight: 10, height: "100%" }}>
         <ScrollView

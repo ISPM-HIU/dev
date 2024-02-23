@@ -5,21 +5,20 @@ import {
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "../components/Home/Home";
 import HeaderLeft from "./HeaderLeft/HeaderLeft";
-import HeaderRight from "./HeaderRight/HeaderRight";
-import Product from "../components/Product/Product";
 import Search from "../components/Search/Search";
 import Login from "../components/Login/Login";
 import Profile from "../components/Profile/Profile";
 import Register from "../components/Register/Register";
-import ProductList from "../components/ProductList/ProductList";
 import Scanner from "../components/Scanner/Scanner";
+import Redirect from "../pageGuard/Redirect";
+import Camera from "../components/Camera/Camera";
 
 const Stack = createStackNavigator();
 
 const options = ({ navigation }) => {
   return {
     headerLeft: () => <HeaderLeft navigation={navigation} />,
-    headerRight: () => <HeaderRight navigation={navigation} />,
+    // headerRight: () => <HeaderRight navigation={navigation} />,
     headerTitle: "",
   };
 };
@@ -63,15 +62,6 @@ export default function Navigation() {
           component={Scanner}
         />
         <Stack.Screen
-          name="Product"
-          options={({ navigation }) =>
-            options({
-              navigation,
-            })
-          }
-          component={Product}
-        />
-        <Stack.Screen
           name="Search"
           options={({ navigation }) =>
             options({
@@ -108,13 +98,13 @@ export default function Navigation() {
           component={Register}
         />
         <Stack.Screen
-          name="ProductList"
+          name="Camera"
           options={({ navigation }) =>
-            options({
+            loginOptions({
               navigation,
             })
           }
-          component={ProductList}
+          component={Camera}
         />
       </Stack.Navigator>
     </NavigationContainer>

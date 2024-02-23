@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../Layout/Layout";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import { Pressable, StyleSheet, View } from "react-native";
 import CustomInput from "../Common/CustomInput/CustomInput";
 import useHttps from "../../services/useHttps";
-import { setAuthToken } from "../../services/token";
+import { getAuthToken, setAuthToken } from "../../services/token";
 
 const Login = ({ navigation }) => {
   const theme = useTheme();
@@ -37,9 +37,9 @@ const Login = ({ navigation }) => {
   };
 
   const handleSubmit = async () => {
-    setLoading(true);
     if (data) {
       try {
+        setLoading(true);
         let response = await https.post("/users/login", data);
         if (response) {
           setAuthToken(response.data);
@@ -57,6 +57,14 @@ const Login = ({ navigation }) => {
   const handleRegister = () => {
     navigation.navigate("Register");
   };
+
+  useEffect(() => {
+    const token = getAuthToken();
+    if (token) {
+      navigation.navigate("Home");
+    }
+  }, []);
+
   return (
     <Layout>
       <View style={{ marginTop: "25%" }}>
