@@ -16,8 +16,9 @@ model Users {
   email       String      @unique
   password    String? 
   isDispo     Boolean?    @default(false)
-  fako        Fako        @relation(fields: [fakoId], references: [id])
-  fakoId      Int
+  number      String?      @db.VarChar(255)
+  fako        Fako?        @relation(fields: [fakoId], references: [id])
+  fakoId      Int?
   signals     Signal[]
 }
 
@@ -28,16 +29,16 @@ model Organization {
   email       String      @unique
   password    String? 
   location    String      @db.VarChar(255)
+  number      String?      @db.VarChar(255)
 }
 
 model Fako {
   id          Int         @id @default(autoincrement())
   createdAt   DateTime    @default(now())
   name        String      @db.VarChar(255)
-  email       String      @unique
-  password    String? 
   location    String      @db.VarChar(255)
   isValid     Boolean?    @default(false)
+  qrCode      String?      @db.VarChar(255)
   users       Users[]
   signal      Signal[]
 }

@@ -43,14 +43,16 @@ const model = {
 
         return result
     },
-    create: async (name:string, last_name:string, email:string, password:string) => {
+    create: async (name:string, last_name:string, email:string, password:string, type: string, number: string) => {
 
         const result = await prisma.users.create({
             data: {
                 name,
                 last_name,
                 email, 
-                password
+                password,
+                type,
+                number
               },
         })
 
@@ -73,6 +75,24 @@ const model = {
 
         let result = await prisma.users.delete({
             where: { id: Number(id) },
+        })
+
+        return result
+    },
+    asign: async (
+        userId: number,
+        fakoId: number,
+    ) => {
+
+        const result = await prisma.users.update({
+            where: { id: Number(userId) },
+            data: {
+                fako: {
+                    connect: {
+                        id: fakoId
+                    }
+                }
+            },
         })
 
         return result
