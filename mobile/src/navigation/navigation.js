@@ -35,7 +35,7 @@ export default function Navigation() {
           },
           ...TransitionPresets.SlideFromRightIOS,
         })}
-        initialRouteName={"Home"}
+        initialRouteName={"Login"}
       >
         <Stack.Screen
           name="Home"

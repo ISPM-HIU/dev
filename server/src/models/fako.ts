@@ -17,14 +17,12 @@ const model = {
         name: string ,
         location: string,
         isValid: boolean,
-        qrCode: string
     ) => {
         const result = await prisma.fako.create({
             data: {
                 name,
                 location,
-                isValid,
-                qrCode 
+                isValid
               },
         })
 
@@ -34,18 +32,16 @@ const model = {
         name: string | undefined,
         location: string | undefined,
         isValid: boolean | undefined,
-        qrCode: string | null | undefined,
+        qrCode: any,
         id:number | undefined
     ) => {
-
         const result = await prisma.fako.update({
             where: { id: Number(id) },
             data: {
-                name ,
+                name,
                 location,
                 isValid,
-                qrCode,
-                id
+                qrCode
             },
         })
 
