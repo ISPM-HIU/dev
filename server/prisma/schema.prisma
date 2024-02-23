@@ -17,7 +17,7 @@ model Users {
   password    String? 
   isDispo     Boolean?    @default(false)
   number      String?      @db.VarChar(255)
-  fako        Fako?        @relation(fields: [fakoId], references: [id])
+  fako        Fako?        @relation(fields: [fakoId], references: [id], onDelete: Cascade)
   fakoId      Int?
   signals     Signal[]
 }
@@ -46,8 +46,8 @@ model Fako {
 model Signal {
   id          Int         @id @default(autoincrement())
   createdAt   DateTime    @default(now())
-  fako        Fako        @relation(fields: [fakoId], references: [id])
+  fako        Fako        @relation(fields: [fakoId], references: [id], onDelete: Cascade)
   fakoId      Int
-  user        Users       @relation(fields: [userId], references: [id])
+  user        Users       @relation(fields: [userId], references: [id], onDelete: Cascade) 
   userId      Int
 }

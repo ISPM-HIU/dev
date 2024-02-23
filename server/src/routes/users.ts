@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.get("/", controller.getAll)
 router.get("/:id", controller.getOne)
+router.get("/type/:type", controller.getByType)
 router.get("/email/:email", controller.getByEmail)
 router.post("/", controller.create)
 router.post("/login", controller.getLogin)

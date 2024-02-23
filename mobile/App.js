@@ -9,8 +9,8 @@ export const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#002d84",
-    secondary: "#FF88E5",
+    primary: "#78c415",
+    secondary: "#0085bb",
     rose: "#FFEEFB",
     colorFb: "#374c8a",
     textPrimary: "#010101",

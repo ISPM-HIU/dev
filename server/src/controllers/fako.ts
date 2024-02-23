@@ -1,5 +1,5 @@
 import { Response, Request } from "express"
-import { generateToken } from '../services/services'
+import { generateQR, generateToken, uploadFile } from '../services/services'
 import model from "../models/fako"
 
 const controller = {
@@ -35,23 +35,32 @@ const controller = {
     },
     create: async (req: Request, res: Response) => {
         let { 
-            name ,
+            name,
             location,
             isValid,
-            qrCode 
         } = req.body
-
         try {
             let response = await model.create(
-                name ,
+                name,
                 location,
-                isValid,
-                qrCode 
+                isValid
             )
             if(response) {
-                res.status(200).send(response)
+                let qr : any = await generateQR(response.id, response.location)
+                let path = await uploadFile(qr, response.name)
+
+                let update = await model.update(
+                    response?.name,
+                    response?.location,
+                    true,
+                    path,
+                    response?.id
+                )
+                if(update) 
+                    res.status(200).send(response)
+                else res.status(500).send("Fako creation failed")
             }
-            else res.status(500).send("Registration failed")
+            else res.status(500).send("Fako failed")
         }
         catch (error: any) {
             console.log(error)
@@ -75,6 +84,18 @@ const controller = {
                 qrCode,
                 id
             )
+            res.status(200).send(data)
+        }
+        catch (error: any) {
+            console.log(error)
+            res.status(500).send(error.message)
+        }
+    },
+    delete: async (req: Request, res: Response) => {
+        let id = parseInt(req.params.id)
+        console.log(id)
+        try { 
+            let data = await model.delete(id)
             res.status(200).send(data)
         }
         catch (error: any) {

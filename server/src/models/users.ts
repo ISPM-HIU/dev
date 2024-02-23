@@ -3,12 +3,26 @@ const prisma = new PrismaClient()
 
 const model = {
     getAll: async () => {
-        let result = await prisma.users.findMany()
+        let result = await prisma.users.findMany({
+            orderBy: {
+                id: "desc"
+            }
+        })
         return result
     },
     getOne: async (id : number) => {
         let result = await prisma.users.findUnique({
             where: { id: Number(id) },
+        })
+        
+        return result 
+    },
+    getByType: async (type : string) => {
+        let result = await prisma.users.findMany({
+            where: { type: type },
+            orderBy: {
+                id: "desc"
+            }
         })
         
         return result 

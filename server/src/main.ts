@@ -5,12 +5,14 @@ import userRoute from './routes/users'
 import oganizationRoute  from './routes/organization'
 import fakoRoute  from './routes/fako'
 import signalRoute from './routes/signal'
+import path from "path"
 
 const app = express()
 
 app.use(cors())
 app.use(express.urlencoded({extended : true}))
 app.use(express.json())
+app.use('/images', express.static(path.join(__dirname, "../public")));
 
 app.get('/',(req:Request, res:Response) => {
   res.send('Hello from Dev tools templates API')
