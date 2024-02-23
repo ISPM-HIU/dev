@@ -8,7 +8,8 @@ import {
     Nav,
     Container,
     Row,
-    Col
+    Col,
+    Modal
   } from "react-bootstrap";
 export const CreateFako = ()=>{
     return(
