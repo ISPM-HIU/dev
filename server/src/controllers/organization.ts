@@ -1,7 +1,7 @@
 import { Response, Request } from "express"
 import { generateToken } from '../services/services'
 import bcrypt from "bcrypt"
-import model from "../models/users"
+import model from "../models/organization"
 
 const controller = {
     getAll: async (req: Request, res: Response) => {
@@ -97,7 +97,7 @@ const controller = {
         }
     },
     create: async (req: Request, res: Response) => {
-        let { name, last_name, email, password, type, number } = req.body
+        let { name, email, password, location, number } = req.body
 
         try {
             let find = await model.getByEmail(email)
@@ -111,7 +111,7 @@ const controller = {
                         res.status(403).send("Registration failed")
                     }
                     else {
-                        let user = await model.create(name, last_name, email, hash, type, number)
+                        let user = await model.create(name, email, hash, location, number)
                         if(user) {
                             let token = generateToken(user.id, user.email)
                             let response  = {
@@ -130,42 +130,11 @@ const controller = {
             res.status(500).send(error)
         }
     },
-    update: async (req: Request, res: Response) => {
-        let { name, last_name, email } = req.body
-        let id = parseInt(req.body.id)
-        try { 
-
-            let data = await model.update(name, last_name, email, id)
-            res.status(200).send(data)
-        }
-        catch (error: any) {
-            console.log(error)
-            res.status(500).send(error.message)
-        }
-    },
     delete: async (req: Request, res: Response) => {
         let id = parseInt(req.params.id)
 
         try { 
             let data = await model.delete(id)
-            res.status(200).send(data)
-        }
-        catch (error: any) {
-            console.log(error)
-            res.status(500).send(error.message)
-        }
-    },
-    asign:  async (req: Request, res: Response) => {
-        let {  
-            fakoId
-        } = req.body
-        let userId = parseInt(req.body.userId)
-        try { 
-
-            let data = await model.asign( 
-                userId,
-                fakoId,
-            )
             res.status(200).send(data)
         }
         catch (error: any) {

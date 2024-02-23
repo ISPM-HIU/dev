@@ -1,6 +1,6 @@
 import express from "express"
 import { isValid } from "../../midlleware/middleware"
-import controller from "../controllers/users"
+import controller from "../controllers/organization"
 
 const router = express.Router()
 
@@ -10,8 +10,6 @@ router.get("/email/:email", controller.getByEmail)
 router.post("/", controller.create)
 router.post("/login", controller.getLogin)
 router.post("/search", controller.search)
-router.put("/", controller.update)
 router.delete("/:id", controller.delete)
-router.post("/asign", controller.asign)
 
 export default router
