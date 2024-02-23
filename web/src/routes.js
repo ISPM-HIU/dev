@@ -23,6 +23,7 @@ import Icons from "views/Icons.js";
 import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
+import { CreateFako } from "views/createFako";
 
 const dashboardRoutes = [
   {
@@ -48,10 +49,17 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/table",
-    name: "Table List",
+    path: "/fako",
+    name: "Fako",
     icon: "nc-icon nc-notes",
     component: TableList,
+    layout: "/admin"
+  },
+  {
+    path: "/createFako",
+    name: "createFako",
+    icon: "nc-icon nc-notes",
+    component: CreateFako,
     layout: "/admin"
   },
   {

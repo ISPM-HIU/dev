@@ -10,14 +10,34 @@ import {
   Table,
   Container,
   Row,
-  Col,
+  Col
 } from "react-bootstrap";
 
+import { NavLink } from "react-router-dom";
+import { Modals } from "components/Modal/Modal";
 function TableList() {
   return (
     <>
+      <Modals></Modals>
       <Container fluid>
         <Row>
+          <Col md="12">
+            <Row>
+              <Col></Col>
+              <Col></Col>
+              <Col style={{ textAlign: 'end' }}>
+                <NavLink
+                  to="/admin/createFako"
+                >
+                  <Button className="btn-secondary" >
+                    Ajouter
+                  </Button>
+                </NavLink>
+
+              </Col>
+            </Row>
+          </Col>
+          <br />
           <Col md="12">
             <Card className="strpied-tabled-with-hover">
               <Card.Header>

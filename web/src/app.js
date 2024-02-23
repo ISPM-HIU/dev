@@ -6,7 +6,6 @@ import Login from "views/login";
 export const App = ()=>{
     const {userId} = useContext(UserContext);
     const [path, setPath] = useState('');
-    console.log(userId);
     useEffect(()=>{
         setPath(userId ? "/admin/user" : "/admin/dashboard")
     },[userId])
