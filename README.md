@@ -84,3 +84,8 @@ example
     method: DELETE
     endpoints: http://localhost:9001/api/users/{id}
 ```
+
+- Run ngrok for mobile: 
+```
+    ngrok http --domain=intent-wallaby-poorly.ngrok-free.app 9001
+```

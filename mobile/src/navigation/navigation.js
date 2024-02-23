@@ -24,6 +24,13 @@ const options = ({ navigation }) => {
   };
 };
 
+const loginOptions = ({ navigation }) => {
+  return {
+    headerLeft: () => <HeaderLeft navigation={navigation} />,
+    headerTitle: "",
+  };
+};
+
 export default function Navigation() {
   return (
     <NavigationContainer>
@@ -85,7 +92,7 @@ export default function Navigation() {
         <Stack.Screen
           name="Login"
           options={({ navigation }) =>
-            options({
+            loginOptions({
               navigation,
             })
           }
@@ -94,7 +101,7 @@ export default function Navigation() {
         <Stack.Screen
           name="Register"
           options={({ navigation }) =>
-            options({
+            loginOptions({
               navigation,
             })
           }

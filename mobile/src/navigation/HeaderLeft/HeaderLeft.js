@@ -9,7 +9,7 @@ const HeaderLeft = ({ navigation }) => {
     <Pressable style={styles.root} onPress={handleGo}>
       <CustomImage
         style={styles.logo}
-        src={require('../../images/logo-mini.svg')}
+        src={require('../../images/icon.png')}
       />
     </Pressable>
   );
@@ -19,11 +19,11 @@ export default HeaderLeft;
 
 const styles = StyleSheet.create({
   logo: {
-    width: "60%",
+    width: "100%",
     height: "60%",
   },
   root: {
-    width: 80,
+    width: 130,
     height: "100%",
     paddingTop: 15,
     paddingLeft: 15,

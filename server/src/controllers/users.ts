@@ -98,7 +98,7 @@ const controller = {
     },
     create: async (req: Request, res: Response) => {
         let { name, last_name, email, password, type, number } = req.body
-
+        console.log(name)
         try {
             let find = await model.getByEmail(email)
             if(find) {

@@ -11,17 +11,19 @@ const CustomInput = ({ label, name = "email", value = null, handleChange }) => {
       backgroundColor: "#f5f5f5",
       borderColor: "#ced4da",
       borderWidth: 0,
-      borderRadius: 50,
       padding: 0,
       marginBottom: 10,
       marginTop: 10,
       marginBottom: 10,
+      borderRadius: 30,
     },
   });
   return (
     <TextInput
+      secureTextEntry={name == "password"}
       placeholder={label}
       style={styles.input}
+      theme={{ roundness: 30 }}
       value={value}
       mode="outlined"
       activeUnderlineColor="transparent"

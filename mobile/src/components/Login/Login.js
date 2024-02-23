@@ -1,22 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../Layout/Layout";
 import { Button, Text, TextInput, useTheme } from "react-native-paper";
 import { Pressable, StyleSheet, View } from "react-native";
 import CustomInput from "../Common/CustomInput/CustomInput";
+import useHttps from "../../services/useHttps";
+import { setAuthToken } from "../../services/token";
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = React.useState("");
   const theme = useTheme();
-  const { primary } = theme.colors;
+  const { secondary } = theme.colors;
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { https } = useHttps();
 
   const styles = StyleSheet.create({
     link: {
-      color: primary,
+      color: secondary,
       textDecorationLine: "underline",
       textDecorationStyle: "solid",
     },
     button: {
-      borderRadius: 5,
+      borderRadius: 30,
       height: 50,
       display: "flex",
       marginTop: 10,
@@ -24,21 +29,55 @@ const Login = ({ navigation }) => {
     },
   });
 
+  const handleChange = (name, value) => {
+    setData({
+      ...data,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    if (data) {
+      try {
+        let response = await https.post("/users/login", data);
+        if (response) {
+          setAuthToken(response.data);
+          navigation.navigate("Home");
+          setLoading(false);
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+        setError(true);
+      }
+    }
+  };
+
   const handleRegister = () => {
     navigation.navigate("Register");
   };
-  const handleChange = (name, value) => {};
   return (
     <Layout>
-      <View style={{ marginTop: "20%" }}>
-        <Text variant="titleLarge">Se connecter</Text>
+      <View style={{ marginTop: "25%" }}>
+        <Text
+          variant="titleLarge"
+          style={{ color: secondary, paddingLeft: 10 }}
+        >
+          Se connecter
+        </Text>
         <CustomInput label="Email" name="email" handleChange={handleChange} />
         <CustomInput
           label="Mot de passe"
           name="password"
           handleChange={handleChange}
         />
-        <Text>
+         {error && (
+          <Text style={{ paddingLeft: 10, color: "red" }}>
+            Une erreur c'est produite.
+          </Text>
+        )}
+        <Text style={{ paddingLeft: 10 }}>
           Pas encore de compte ?{" "}
           <>
             <Text style={styles.link} onPress={handleRegister}>
@@ -46,8 +85,13 @@ const Login = ({ navigation }) => {
             </Text>
           </>
         </Text>
-        <Button style={styles.button} mode="contained">
-          Connexion
+        <Button
+          disabled={loading}
+          style={styles.button}
+          mode="contained"
+          onPress={handleSubmit}
+        >
+          {loading ? "Chargement..." : "Connexion"}
         </Button>
       </View>
     </Layout>
