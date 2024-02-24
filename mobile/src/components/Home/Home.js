@@ -29,18 +29,14 @@ const Home = ({ navigation }) => {
 
   return (
     <Layout>
-      {/* <View style={{width: "100px", backgroundColor: "red",height:"520px"}}>
-        <Text>
-            Hello
-        </Text>
-        <Image source={require("../../images/icon.png")} style={{ width: "200px", height: "550px"}} />
-      </View> */}
-      <Button style={styles.button} mode="contained" onPress={handleProfil}>
-        Mon profile
-      </Button>
-      <Button style={styles.button} mode="contained" onPress={handleScan}>
-        Scanner
-      </Button>
+      <View style={{marginTop: "50%"}}>
+        <Button style={styles.button} mode="contained" onPress={handleProfil}>
+          Mon profile
+        </Button>
+        <Button style={styles.button} mode="contained" onPress={handleScan}>
+          Scanner
+        </Button>
+      </View>
     </Layout>
   );
 };

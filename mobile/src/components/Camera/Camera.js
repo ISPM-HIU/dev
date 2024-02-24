@@ -1,28 +1,61 @@
-import React, { useEffect, useState } from "react";
-import { Searchbar, useTheme, Text } from "react-native-paper";
-import Layout from "../Layout/Layout";
+import React, { useState, useEffect } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { Camera } from 'expo-camera';
 
-const Camera = ({ route }) => {
-  const theme = useTheme();
-  const { query } = route.params;
-  const { rose, primary } = theme.colors;
-  const [queryValue, setQueryValue] = useState(null);
+export default function App() {
+  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraRef, setCameraRef] = useState(null);
+
   useEffect(() => {
-    if (query) {
-      let data = JSON.stringify(query)
-      let fako = data.split("/")[0].split("=")[1]
-      let localisaton = data.split("/")[1].split("=")[1]
-      console.log(newData.fako)
-      setQueryValue({
-        fako: fako,
-        localisaton
-      });
-    }
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
   }, []);
+
+  const takePicture = async () => {
+    if (cameraRef) {
+      const { uri } = await cameraRef.takePictureAsync();
+      console.log('Photo taken, URI:', uri);
+      // Do something with the URI, like saving it or displaying it in an Image component
+    }
+  };
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
   return (
-    <Layout>
-      <Text>Fako numéro</Text>
-    </Layout>
+    <View style={{ flex: 1 }}>
+      <Camera
+        style={{ flex: 1 }}
+        type={Camera.Constants.Type.back}
+        ref={(ref) => {
+          setCameraRef(ref);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+            flexDirection: 'row',
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              flex: 0.1,
+              alignSelf: 'flex-end',
+              alignItems: 'center',
+            }}
+            onPress={takePicture}
+          >
+            <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>Take Photo</Text>
+          </TouchableOpacity>
+        </View>
+      </Camera>
+    </View>
   );
-};
-export default Camera;
+}

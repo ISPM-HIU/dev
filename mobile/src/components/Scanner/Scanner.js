@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { Button } from "react-native-paper";
 
 const Scanner = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -36,9 +37,10 @@ const Scanner = ({ navigation }) => {
       />
       {scanned && (
         <Button
-          title={"Appuyez pour scanner à nouveau"}
           onPress={() => setScanned(false)}
-        />
+        >
+        Appuyez pour scanner à nouveau
+        </Button>
       )}
     </View>
   );
