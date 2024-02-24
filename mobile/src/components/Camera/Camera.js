@@ -10,12 +10,18 @@ const Camera = ({ route }) => {
   useEffect(() => {
     if (query) {
       let data = JSON.stringify(query)
-      setQueryValue(data);
+      let fako = data.split("/")[0].split("=")[1]
+      let localisaton = data.split("/")[1].split("=")[1]
+      console.log(newData.fako)
+      setQueryValue({
+        fako: fako,
+        localisaton
+      });
     }
   }, []);
   return (
     <Layout>
-      <Text>{queryValue}</Text>
+      <Text>Fako numéro</Text>
     </Layout>
   );
 };

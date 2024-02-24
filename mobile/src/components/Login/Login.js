@@ -5,6 +5,8 @@ import { Pressable, StyleSheet, View } from "react-native";
 import CustomInput from "../Common/CustomInput/CustomInput";
 import useHttps from "../../services/useHttps";
 import { getAuthToken, setAuthToken } from "../../services/token";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../store/slice/userSlice";
 
 const Login = ({ navigation }) => {
   const theme = useTheme();
@@ -13,6 +15,8 @@ const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { https } = useHttps();
+  const user = useSelector((state) => state.user.value)
+  const dispatch = useDispatch()
 
   const styles = StyleSheet.create({
     link: {
@@ -42,9 +46,10 @@ const Login = ({ navigation }) => {
         setLoading(true);
         let response = await https.post("/users/login", data);
         if (response) {
-          setAuthToken(response.data);
+          dispatch(setUser(response.data));
           navigation.navigate("Home");
           setLoading(false);
+          setError(false);
         }
       } catch (error) {
         setLoading(false);
@@ -59,11 +64,10 @@ const Login = ({ navigation }) => {
   };
 
   useEffect(() => {
-    const token = getAuthToken();
-    if (token) {
+    if (user && user.token) {
       navigation.navigate("Home");
     }
-  }, []);
+  }, [navigation]);
 
   return (
     <Layout>

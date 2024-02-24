@@ -20,7 +20,7 @@ const generateToken = (u_id : number | undefined, u_email : string | undefined) 
 const generateQR = async (fakoId: number, location: string) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let response = await QRCode.toDataURL(`{fako:${fakoId},localisaton:${location}}`);
+        let response = await QRCode.toDataURL(`fako=${fakoId}/localisaton=${location}`);
         const matches = response.match(/^data:([A-Za-z-+/]+);base64,(.+)$/);
         const base64Data = matches ? matches[2] : response;
         // Convert base64 to binary buffer

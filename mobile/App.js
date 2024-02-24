@@ -5,6 +5,9 @@ import {
 } from "react-native-paper";
 import Navigation from "./src/navigation/navigation";
 
+import { Provider } from "react-redux";
+import store from "./src/store/store";
+
 export const theme = {
   ...DefaultTheme,
   colors: {
@@ -59,9 +62,11 @@ export const theme = {
 
 export default function App() {
   return (
-    <PaperProvider theme={theme}>
-      <Navigation />
-    </PaperProvider>
+    <Provider store={store}>
+      <PaperProvider theme={theme}>
+        <Navigation />
+      </PaperProvider>
+    </Provider>
   );
 }
 

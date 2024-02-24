@@ -6,6 +6,7 @@ import CustomInput from "../Common/CustomInput/CustomInput";
 import { Picker } from "@react-native-picker/picker";
 import { getAuthToken, setAuthToken } from "../../services/token";
 import useHttps from "../../services/useHttps";
+import { useDispatch, useSelector } from "react-redux";
 
 const Register = ({ navigation }) => {
   const theme = useTheme();
@@ -15,6 +16,8 @@ const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { https } = useHttps();
+  const user = useSelector((state) => state.user.value)
+  const dispatch = useDispatch()
 
   const styles = StyleSheet.create({
     link: {
@@ -49,9 +52,10 @@ const Register = ({ navigation }) => {
         data.type = "avertisseur";
         let response = await https.post("/users", data);
         if (response) {
-          setAuthToken(response.data);
+          dispatch(setUser(response.data));
           navigation.navigate("Home");
           setLoading(false);
+          setError(false);
         }
       } catch (error) {
         setLoading(false);
@@ -62,11 +66,10 @@ const Register = ({ navigation }) => {
   };
 
   useEffect(() => {
-    const token = getAuthToken();
-    if (token) {
+    if (user && user.token) {
       navigation.navigate("Home");
     }
-  }, []);
+  }, [navigation]);
   return (
     <Layout>
       <View style={{ marginTop: "15%" }}>
@@ -93,14 +96,6 @@ const Register = ({ navigation }) => {
           label="Mot de passe"
           handleChange={handleChange}
         />
-        <Picker
-          style={{ color: "black" }}
-          selectedValue={selectedValue}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-        >
-          <Picker.Item color="red" label="Java" value="java" />
-          <Picker.Item color="red" label="JavaScript" value="js" />
-        </Picker>
         {error && (
           <Text style={{ paddingLeft: 10, color: "red" }}>
             Une erreur c'est produite.

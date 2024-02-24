@@ -12,6 +12,7 @@ import Register from "../components/Register/Register";
 import Scanner from "../components/Scanner/Scanner";
 import Redirect from "../pageGuard/Redirect";
 import Camera from "../components/Camera/Camera";
+import Confirmation from "../components/Confirmation/Confirmation";
 
 const Stack = createStackNavigator();
 
@@ -105,6 +106,15 @@ export default function Navigation() {
             })
           }
           component={Camera}
+        />
+        <Stack.Screen
+          name="Confirmation"
+          options={({ navigation }) =>
+            loginOptions({
+              navigation,
+            })
+          }
+          component={Confirmation}
         />
       </Stack.Navigator>
     </NavigationContainer>
