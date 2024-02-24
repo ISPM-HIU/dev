@@ -81,7 +81,7 @@ function Poubelle() {
     <>
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Ajouter une dabapako</Modal.Title>
+          <Modal.Title>Ajouter une poubelle</Modal.Title>
         </Modal.Header>
         <Form onSubmit={onSubmit}>
           <Modal.Body>
@@ -112,9 +112,9 @@ function Poubelle() {
             <Card className="strpied-tabled-with-hover">
               <Card.Header style={{ display: 'grid', gridTemplateColumns: '[title] 50% [vide] 30% [button] 20%' }}>
                 <Card.Title as="h4" style={{ gridColumn: 'title' }}>
-                  Liste des dabapako
+                  Liste des poubelle
                   <p className="card-category">
-                  Voici la liste de tous les dabapako inscrits
+                  Voici la liste de tous les poubelle inscrits
                 </p>
                 </Card.Title>
                 <Image style={{ gridColumn: 'button', justifySelf:'center',cursor: 'pointer' }} src={add} width={40} onClick={() => setShow(true)}></Image>

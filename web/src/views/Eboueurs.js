@@ -20,10 +20,23 @@ function Eboueurs() {
   const [user, setUser] = useState({
     name:'',
     last_name: '',
-    number:''
-  })
+    number:'',
+    type:'eboueur'
+  });
+  const [userId, setUserId] = useState('');
   const [listUser, setListUser] = useState([]);
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState({
+    add: false,
+    assign: false
+  });
+  const [listeFako, setListeFako] = useState([]);
+  const getFako = ()=>{
+    http.get('/signal/').then((response)=>{
+      setListeFako(response.data.fako.filter((item)=>item.isValid == false))
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
   const onSubmitAdd = (e)=>{
     e.preventDefault();
     http.post('/users/',{
@@ -31,16 +44,34 @@ function Eboueurs() {
       last_name: user.last_name,
       number: user.number,
       password:'test',
-      email:'test@test.test'
+      email:'test',
+      type:'eboueur'
     }).then((response)=>{
       getUser()
-      setShow(false);
+      setShow({...show, add: false});
     }).catch((err)=>{
       console.log(err);
     })
   }
+  const onsubmitAssign = (e)=>{
+    e.preventDefault();
+    http.post('/users/asign/',{
+      userId: userId,
+      fakoId:''
+    }).then((response)=>{
+      getUser();
+      setShow({...show, assign: false})
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+  const onShowModalAssign = (e)=>{
+    getFako();
+    setUserId(e.current.id);
+    setShow({...show, assign: true})
+  }
   const getUser = ()=>{
-    http.get('/users/').then((response)=>{
+    http.get(`/users/type/${user.type}`).then((response)=>{
       setListUser(response.data)
     }).catch((err)=>{console.log(err);})
   }
@@ -49,7 +80,7 @@ function Eboueurs() {
   },[])
   return (
     <>
-    <Modal show={show} onHide={() => setShow(false)}>
+    <Modal show={show.add} onHide={() => setShow({...show, add: false})}>
         <Modal.Header closeButton>
           <Modal.Title>Ajouter une éboueurs</Modal.Title>
         </Modal.Header>
@@ -70,7 +101,7 @@ function Eboueurs() {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShow(false)}>
+            <Button variant="secondary" onClick={() => setShow({...show, add: false})}>
               Annuler
             </Button>
             <Button variant="primary" type='submit'>
@@ -79,6 +110,29 @@ function Eboueurs() {
           </Modal.Footer>
         </Form>
       </Modal>
+      {/* Modal creation */}
+      <Modal show={show.assign} onHide={() => setShow({...show, add: false})}>
+        <Modal.Header closeButton>
+          <Modal.Title>Assigner une éboueurs par une tâche</Modal.Title>
+        </Modal.Header>
+        <Form onSubmit={onsubmitAssign}>
+          <Modal.Body>
+            <Form.Group className="mb-3" controlId="formBasicName">
+              <Form.Label>Poubelles</Form.Label>
+              <Form.Control value={user.name} onChange={(e) => setUser({...user, name: e.target.value})} type="text" placeholder="Entrer sa description" />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShow({...show, assign: false})}>
+              Annuler
+            </Button>
+            <Button variant="primary" type='submit'>
+              Valider
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
+      {/* Modal assigne */}
       <Container fluid>
         <Row>
           <Col md="12">
@@ -90,7 +144,7 @@ function Eboueurs() {
                   Voici la liste de tous les éboueurs inscrits
                 </p>
                 </Card.Title>
-                <Image style={{ gridColumn: 'button', justifySelf:'center',cursor: 'pointer' }} src={addUser} width={40} onClick={()=>setShow(true)}></Image>
+                <Image style={{ gridColumn: 'button', justifySelf:'center',cursor: 'pointer' }} src={addUser} width={40} onClick={()=>setShow({...show, add: true})}></Image>
               </Card.Header>
               <Card.Body>
                 <div className="container">
@@ -127,12 +181,10 @@ function Eboueurs() {
                                   <span className="label label-default">{item.number}</span>
                                 </td>
                                 <td style={{width:'20%'}}>
-                                  <a href="#" className="table-link">
-                                    <span className="fa-stack">
+                                    <span className="fa-stack" id={item.id} onClick={onShowModalAssign}>
                                       <i className="fa fa-square fa-stack-2x"></i>
                                       <i className="fa fa-search-plus fa-stack-1x fa-inverse"></i>
                                     </span>
-                                  </a>
                                   <a href="#" className="table-link">
                                     <span className="fa-stack">
                                       <i className="fa fa-square fa-stack-2x"></i>

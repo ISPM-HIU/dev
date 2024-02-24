@@ -16,148 +16,108 @@ import {
 import { NavLink } from "react-router-dom";
 import trash from '../assets/img/effacer.png';
 import modify from '../assets/img/bouton-modifier.png';
-import add from '../assets/img/poubelle.png'
 import useHttps from "hooks/useHttp";
+
 function Signaleur() {
   const { http } = useHttps();
-  const [show, setShow] = useState(false);
-  const [fako, setFako] = useState({
-    name: '',
-    location: ''
-  })
-  const [listeFako, setListeFako] = useState([
-    {
-      id: null,
-      name: null,
-      location: null,
-      isValid: null
-    }
-  ]);
-  const getFako = () => {
-    http.get('/fako').then(
-      (response) => {
-        setListeFako(response.data);
-      }
-    ).catch(
-      (err) => {
-        console.log(err);
-      }
-    )
+  const [listUser, setListUser] = useState([])
+  const typeUser = 'avertisseur'
+  const getUser = ()=>{
+    http.get(`/users/type/${typeUser}`).then((response)=>{
+      setListUser(response.data)
+    }).catch((err)=>{console.log(err);})
   }
-  useEffect(() => {
-    getFako();
-  }, [])
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    http.post('/fako/', {
-      name: fako.name,
-      location: fako.location
-    }).then(
-      async (response) => {
-        await getFako();
-        setShow(false)
-      }
-    ).catch(
-      (error) => {
-        console.log(error);
-      }
-    )
-  }
-
-  const onSuppr = (e) => {
-    e.preventDefault();
-    http.delete(`/fako/${e.current.id}`, {
-      id: e.current.id
-    }).then((result) => {
-      getFako();
-      console.log(result);
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+  useEffect(()=>{
+    getUser()
+  },[])
 
   return (
     <>
-      <Modal show={show} onHide={() => setShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Ajouter une dabapako</Modal.Title>
-        </Modal.Header>
-        <Form onSubmit={onSubmit}>
-          <Modal.Body>
-
-            <Form.Group className="mb-3" controlId="formBasicName">
-              <Form.Label>Description</Form.Label>
-              <Form.Control value={fako.name} onChange={(e) => setFako({ ...fako, name: e.target.value })} type="text" placeholder="Entrer sa description" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicName">
-              <Form.Label>Lieu</Form.Label>
-              <Form.Control value={fako.location} onChange={(e) => setFako({ ...fako, location: e.target.value })} type="text" placeholder="Entrer son location" />
-            </Form.Group>
-
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShow(false)}>
-              Annuler
-            </Button>
-            <Button variant="primary" type='submit'>
-              Valider
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
       <Container fluid>
         <Row>
           <Col md="12">
-            <Card className="strpied-tabled-with-hover">
-              <Card.Header style={{ display: 'grid', gridTemplateColumns: '[title] 50% [vide] 30% [button] 20%' }}>
-                <Card.Title as="h4" style={{ gridColumn: 'title' }}>
-                  Liste des dabapako
+            <Card>
+            <Card.Header >
+                <Card.Title as="h4" >
+                  Liste des signaleur
                   <p className="card-category">
-                  Voici la liste de tous les dabapako inscrits
+                  Voici la liste de tous les signaleur qui a déja signalé
                 </p>
                 </Card.Title>
-                <Image style={{ gridColumn: 'button', justifySelf:'center',cursor: 'pointer' }} src={add} width={40} onClick={() => setShow(true)}></Image>
               </Card.Header>
-              <Card.Body className="table-full-width table-responsive px-0">
-                <Table className="table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th className="border-0">ID</th>
-                      <th className="border-0">Description</th>
-                      <th className="border-0">Location</th>
-                      <th className="border-0">État</th>
-                      <th className="border-0">QrCode</th>
-                      <th className="border-0">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {listeFako.map((item) => {
-                      return (
-                        <tr key={item.id}>
-                          <td>
-                            {item.id}
-                          </td>
-                          <td>
-                            {item.name}
-                          </td>
-                          <td>
-                            {item.location}
-                          </td>
-                          <td>
-                            {item.isValid ? "Plein" : "vide"}
-                          </td>
-                          <td>
-                            qrCode
-                          </td>
-                          <td>
-                            <Image style={{ cursor: 'pointer' }} src={modify} width={15} id={item.id} onClick={onSuppr}></Image>{'  '}<Image src={trash} style={{ cursor: 'pointer' }} width={15} id={item.id} onClick={onSuppr}></Image>
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </Table>
+              <Card.Body>
+                <div className="container">
+                  <div className="row">
+                    <div className="col-lg-12">
+                      <div className="main-box clearfix">
+                        <div className="table-responsive">
+                          <table className="table user-list">
+                            <thead>
+                              <tr>
+                                <th><span>Nom et prenom</span></th>
+                                <th><span>Date de création</span></th>
+                                <th className="text-center"><span>Disponibilité</span></th>
+                                <th><span>Numéro téléphone</span></th>
+                                <th>&nbsp;</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {listUser.map((item)=>{
+                                return(
+                                  <tr key={item.id}>
+                                <td>
+                                  <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt />
+                                    <a href="#" className="user-link">{item.name}</a>
+                                    <span className="user-subhead">{item.last_name}</span>
+                                </td>
+                                <td>
+                                  {item.createdAt}
+                                </td>
+                                <td className="text-center">
+                                  <span className="label label-default">{item.isDispo ? "Non dispo" : "Dispo"}</span>
+                                </td>
+                                <td>
+                                  <span className="label label-default">{item.number}</span>
+                                </td>
+                                <td style={{width:'20%'}}>
+                                  <a href="#" className="table-link">
+                                    <span className="fa-stack">
+                                      <i className="fa fa-square fa-stack-2x"></i>
+                                      <i className="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                  </a>
+                                  <a href="#" className="table-link">
+                                    <span className="fa-stack">
+                                      <i className="fa fa-square fa-stack-2x"></i>
+                                      <i className="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                  </a>
+                                  <a href="#" className="table-link danger">
+                                    <span className="fa-stack">
+                                      <i className="fa fa-square fa-stack-2x"></i>
+                                      <i className="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                  </a>
+                                </td>
+                              </tr>
+                                )
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                        <ul className="pagination pull-right">
+                          <li><a href="#"><i className="fa fa-chevron-left"></i></a></li>
+                          <li><a href="#">1</a></li>
+                          <li><a href="#">2</a></li>
+                          <li><a href="#">3</a></li>
+                          <li><a href="#">4</a></li>
+                          <li><a href="#">5</a></li>
+                          <li><a href="#"><i className="fa fa-chevron-right"></i></a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </Card.Body>
             </Card>
           </Col>
